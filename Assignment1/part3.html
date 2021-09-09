@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+
+<body>
+	<h1> People who won prizes for category 'Chemistry' during year 2000 to 2019</h1>
+
+	<div id="id01"></div>
+
+	<script>
+		var xmlhttp = new XMLHttpRequest();
+		var url = "http://api.nobelprize.org/v1/prize.json ";
+
+		xmlhttp.onreadystatechange = function () {
+			if (this.readyState == 4 && this.status == 200) {
+				var myArr = JSON.parse(this.responseText);
+				myFunction(myArr);
+			}
+		};
+		xmlhttp.open("GET", url, true);
+		xmlhttp.send();
+
+		function myFunction(arr) {
+			let data = arr['prizes'];
+			let out = "";
+
+
+			data.forEach(element => {
+
+				if (element.year >= 2000 && element.year <= 2019 && element.category === 'chemistry')
+					element.laureates.forEach(val => {
+
+						out += '<p>' + val['firstname'] + " " + val['surname'] + '</p>';
+
+					});
+			});
+
+			document.getElementById("id01").innerHTML = out;
+		}
+	</script>
+
+</body>
+
+</html>
